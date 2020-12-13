@@ -2,3 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+<<<<<<< HEAD
+=======
+_book/
+_bookdown_files/
+>>>>>>> gh-pages
