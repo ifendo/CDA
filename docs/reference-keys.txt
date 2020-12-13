@@ -10,7 +10,8 @@ example-two
 final-words
 the-binomial-test
 overview
+proc-freq-to-calculate-wald-ci
 normal-approximation
 a-proc-freq-example
 a-real-example-from-trial
-proc-freq-to-calculate-wald-ci
+proc-freq-to-calculate-wald-ci-1
