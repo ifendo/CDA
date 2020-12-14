@@ -73,7 +73,7 @@ knitr::include_graphics('images/wald_ci.png')
 
 #### proc freq to calculate Wald CI
 
-```{markdown}
+```markdown
 data resp;
     input avisitn avisit $ trt01pn avalc $ count;
     cards;
