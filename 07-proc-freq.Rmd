@@ -73,7 +73,7 @@ knitr::include_graphics('images/wald_ci.png')
 
 #### proc freq to calculate Wald CI
 
-```{markdown}
+```markdown
 data resp;
     input avisitn avisit $ trt01pn avalc $ count;
     cards;
@@ -106,6 +106,7 @@ run;
 data resp2;
     set bincl;
     if proportion not in (0,.) then percent = round(proportion * 100, .1);
+    else percent=0;
     if lowercl not in (0,.) then lowercl = round(lowercl * 100, .1); 
     else lowercl=0;
     if uppercl not in (0,.) then uppercl = round(uppercl * 100, .1); 
