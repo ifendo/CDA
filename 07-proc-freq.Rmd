@@ -114,3 +114,21 @@ data resp2;
 run;
 ```
 [SAS doc](https://documentation.sas.com/?cdcId=pgmsascdc&cdcVersion=9.4_3.5&docsetId=procstat&docsetTarget=procstat_freq_syntax08.htm&locale=en#procstat.freq.freqbwald)
+
+## The Chi-Square Test
+
+The **chi-square test** is used to compare two independent binomial proportions, p~1~,
+and p~2~. Often, you want to compare the 'response' rates between a treated group and
+a parallel control group.
+
+The chi-square test is an approximate test, which may be used when the normal approximation
+to the binomial distribution is valid.
+
+
+## CMH
+
+Example: TEFDACT08 from PSA3002 Week 24
+
+
+## Fisher's exact test
+Example: TEFDAPSA02 from PSA3002 Week 24
