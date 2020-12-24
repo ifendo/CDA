@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Two-Way ANOVA | Clinical Data Analysis</title>
+  <meta name="description" content="Jie’s daily work summary as a clinical statistical programmer." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Two-Way ANOVA | Clinical Data Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Jie’s daily work summary as a clinical statistical programmer." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Two-Way ANOVA | Clinical Data Analysis" />
+  
+  <meta name="twitter:description" content="Jie’s daily work summary as a clinical statistical programmer." />
+  
+
+<meta name="author" content="Jie Wang" />
+
+
+<meta name="date" content="2020-12-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="one-way-anova.html"/>
+<link rel="next" href="repeated-measures.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#discrete-distributions"><i class="fa fa-check"></i><b>2.1</b> Discrete Distributions</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#continuous-distributions"><i class="fa fa-check"></i><b>2.2</b> Continuous Distributions</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#one-sample-t-test"><i class="fa fa-check"></i><b>2.3</b> One-Sample t-Test</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#sas-example"><i class="fa fa-check"></i><b>2.3.1</b> SAS example</a></li>
+<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#test-of-normality-shapiro---wilk-test"><i class="fa fa-check"></i><b>2.3.2</b> Test of normality: Shapiro - Wilk test</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#paired-t-test"><i class="fa fa-check"></i><b>2.4</b> Paired-t test</a></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#two-sample-t-test"><i class="fa fa-check"></i><b>2.5</b> Two-sample t-Test</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#reference-table-and-figure"><i class="fa fa-check"></i><b>2.6</b> Reference table and figure</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="one-way-anova.html"><a href="one-way-anova.html"><i class="fa fa-check"></i><b>3</b> One-Way ANOVA</a><ul>
+<li class="chapter" data-level="3.1" data-path="one-way-anova.html"><a href="one-way-anova.html#sas-example-1"><i class="fa fa-check"></i><b>3.1</b> SAS example</a></li>
+<li class="chapter" data-level="3.2" data-path="one-way-anova.html"><a href="one-way-anova.html#sample-result"><i class="fa fa-check"></i><b>3.2</b> Sample Result</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="one-way-anova.html"><a href="one-way-anova.html#pairwise-t-test"><i class="fa fa-check"></i><b>3.2.1</b> Pairwise t-test</a></li>
+<li class="chapter" data-level="3.2.2" data-path="one-way-anova.html"><a href="one-way-anova.html#dunnetts-test"><i class="fa fa-check"></i><b>3.2.2</b> Dunnett’s test</a></li>
+<li class="chapter" data-level="3.2.3" data-path="one-way-anova.html"><a href="one-way-anova.html#side-by-side"><i class="fa fa-check"></i><b>3.2.3</b> side-by-side</a></li>
+<li class="chapter" data-level="3.2.4" data-path="one-way-anova.html"><a href="one-way-anova.html#some-notes"><i class="fa fa-check"></i><b>3.2.4</b> Some notes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="two-way-anova.html"><a href="two-way-anova.html"><i class="fa fa-check"></i><b>4</b> Two-Way ANOVA</a><ul>
+<li class="chapter" data-level="4.1" data-path="two-way-anova.html"><a href="two-way-anova.html#sas-example-2"><i class="fa fa-check"></i><b>4.1</b> SAS example</a></li>
+<li class="chapter" data-level="4.2" data-path="two-way-anova.html"><a href="two-way-anova.html#sample-result-1"><i class="fa fa-check"></i><b>4.2</b> Sample Result</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="two-way-anova.html"><a href="two-way-anova.html#some-notes-1"><i class="fa fa-check"></i><b>4.2.1</b> Some notes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="two-way-anova.html"><a href="two-way-anova.html#least-squares-mean-ls-mean"><i class="fa fa-check"></i><b>4.3</b> Least Squares Mean (LS-mean)</a></li>
+<li class="chapter" data-level="4.4" data-path="two-way-anova.html"><a href="two-way-anova.html#unbalanced-two-way-anova"><i class="fa fa-check"></i><b>4.4</b> Unbalanced Two-way ANOVA</a></li>
+<li class="chapter" data-level="4.5" data-path="two-way-anova.html"><a href="two-way-anova.html#some-notes-2"><i class="fa fa-check"></i><b>4.5</b> Some notes</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="two-way-anova.html"><a href="two-way-anova.html#mixed-effects"><i class="fa fa-check"></i><b>4.5.1</b> “Mixed” effects</a></li>
+<li class="chapter" data-level="4.5.2" data-path="two-way-anova.html"><a href="two-way-anova.html#using-proc-mixed"><i class="fa fa-check"></i><b>4.5.2</b> Using Proc Mixed</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="repeated-measures.html"><a href="repeated-measures.html"><i class="fa fa-check"></i><b>5</b> Repeated Measures</a><ul>
+<li class="chapter" data-level="5.1" data-path="repeated-measures.html"><a href="repeated-measures.html#introduction"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="repeated-measures.html"><a href="repeated-measures.html#sas-example-3"><i class="fa fa-check"></i><b>5.2</b> SAS example</a></li>
+<li class="chapter" data-level="5.3" data-path="repeated-measures.html"><a href="repeated-measures.html#example-from-trial"><i class="fa fa-check"></i><b>5.3</b> Example from trial</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="repeated-measures.html"><a href="repeated-measures.html#sample-mmrm-program"><i class="fa fa-check"></i><b>5.3.1</b> Sample MMRM program</a></li>
+<li class="chapter" data-level="5.3.2" data-path="repeated-measures.html"><a href="repeated-measures.html#sample-mmrm-output"><i class="fa fa-check"></i><b>5.3.2</b> Sample MMRM output</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>6</b> Linear Regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction-1"><i class="fa fa-check"></i><b>6.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.2" data-path="linear-regression.html"><a href="linear-regression.html#some-notes-3"><i class="fa fa-check"></i><b>6.2</b> Some notes</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="analysis-of-covariance.html"><a href="analysis-of-covariance.html"><i class="fa fa-check"></i><b>7</b> Analysis of Covariance</a><ul>
+<li class="chapter" data-level="7.1" data-path="analysis-of-covariance.html"><a href="analysis-of-covariance.html#introduction-2"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="analysis-of-covariance.html"><a href="analysis-of-covariance.html#sas-example-4"><i class="fa fa-check"></i><b>7.2</b> SAS Example</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="the-binomial-test.html"><a href="the-binomial-test.html"><i class="fa fa-check"></i><b>8</b> The Binomial Test</a><ul>
+<li class="chapter" data-level="8.1" data-path="the-binomial-test.html"><a href="the-binomial-test.html#overview"><i class="fa fa-check"></i><b>8.1</b> Overview</a></li>
+<li class="chapter" data-level="8.2" data-path="the-binomial-test.html"><a href="the-binomial-test.html#normal-approximation"><i class="fa fa-check"></i><b>8.2</b> Normal Approximation</a></li>
+<li class="chapter" data-level="8.3" data-path="the-binomial-test.html"><a href="the-binomial-test.html#a-proc-freq-example"><i class="fa fa-check"></i><b>8.3</b> A proc freq example</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="the-binomial-test.html"><a href="the-binomial-test.html#a-real-example-from-trial"><i class="fa fa-check"></i><b>8.3.1</b> A real example from trial</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="the-binomial-test.html"><a href="the-binomial-test.html#the-chi-square-test"><i class="fa fa-check"></i><b>8.4</b> The Chi-Square Test</a></li>
+<li class="chapter" data-level="8.5" data-path="the-binomial-test.html"><a href="the-binomial-test.html#cmh"><i class="fa fa-check"></i><b>8.5</b> CMH</a></li>
+<li class="chapter" data-level="8.6" data-path="the-binomial-test.html"><a href="the-binomial-test.html#fishers-exact-test"><i class="fa fa-check"></i><b>8.6</b> Fisher’s exact test</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Clinical Data Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="two-way-anova" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Two-Way ANOVA</h1>
+<p>The two-way ANOVA is a method for simultaneously analyzing two factors that affect a response.</p>
+<div id="sas-example-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> SAS example</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><a href="two-way-anova.html#cb9-1"></a>data hgbds;</span>
+<span id="cb9-2"><a href="two-way-anova.html#cb9-2"></a>  input trt $ type $ patno hgbch @@;</span>
+<span id="cb9-3"><a href="two-way-anova.html#cb9-3"></a>  datalines;</span>
+<span id="cb9-4"><a href="two-way-anova.html#cb9-4"></a>  ACT C 1 1.7 ACT C 3 -0.2 ACT C 6 1.7</span>
+<span id="cb9-5"><a href="two-way-anova.html#cb9-5"></a>  ACT C 7 2.3 ACT C 10 2.7 ACT C 12 0.4</span>
+<span id="cb9-6"><a href="two-way-anova.html#cb9-6"></a>  ACT C 13 1.3 ACT C 15 0.6 ACT P 22 2.7</span>
+<span id="cb9-7"><a href="two-way-anova.html#cb9-7"></a>  ACT P 24 1.6 ACT P 26 2.5 ACT P 28 0.5</span>
+<span id="cb9-8"><a href="two-way-anova.html#cb9-8"></a>  ACT P 29 2.6 ACT P 31 3.7 ACT P 34 2.7</span>
+<span id="cb9-9"><a href="two-way-anova.html#cb9-9"></a>  ACT P 36 1.3 ACT R 42 -0.3 ACT R 45 1.9</span>
+<span id="cb9-10"><a href="two-way-anova.html#cb9-10"></a>  ACT R 46 1.7 ACT R 47 0.5 ACT R 49 2.1</span>
+<span id="cb9-11"><a href="two-way-anova.html#cb9-11"></a>  ACT R 51 -0.4 ACT R 52 0.1 ACT R 54 1.0</span>
+<span id="cb9-12"><a href="two-way-anova.html#cb9-12"></a>  PBO C 2 2.3 PBO C 4 1.2 PBO C 5 -0.6</span>
+<span id="cb9-13"><a href="two-way-anova.html#cb9-13"></a>  PBO C 8 1.3 PBO C 9 -1.1 PBO C 11 1.6</span>
+<span id="cb9-14"><a href="two-way-anova.html#cb9-14"></a>  PBO C 14 -0.2 PBO C 16 1.9 PBO P 21 0.6</span>
+<span id="cb9-15"><a href="two-way-anova.html#cb9-15"></a>  PBO P 23 1.7 PBO P 25 0.8 PBO P 27 1.7</span>
+<span id="cb9-16"><a href="two-way-anova.html#cb9-16"></a>  PBO P 30 1.4 PBO P 32 0.7 PBO P 33 0.8</span>
+<span id="cb9-17"><a href="two-way-anova.html#cb9-17"></a>  PBO P 35 1.5 PBO R 41 1.6 PBO R 43 -2.2</span>
+<span id="cb9-18"><a href="two-way-anova.html#cb9-18"></a>  PBO R 44 1.9 PBO R 48 -1.6 PBO R 50 0.8</span>
+<span id="cb9-19"><a href="two-way-anova.html#cb9-19"></a>  PBO R 53 -0.9 PBO R 55 1.5 PBO R 56 2.1</span>
+<span id="cb9-20"><a href="two-way-anova.html#cb9-20"></a>  ;</span>
+<span id="cb9-21"><a href="two-way-anova.html#cb9-21"></a>run;</span>
+<span id="cb9-22"><a href="two-way-anova.html#cb9-22"></a></span>
+<span id="cb9-23"><a href="two-way-anova.html#cb9-23"></a>proc format;</span>
+<span id="cb9-24"><a href="two-way-anova.html#cb9-24"></a>  value $typfmt &#39;C&#39; = &#39;CERVICAL &#39;</span>
+<span id="cb9-25"><a href="two-way-anova.html#cb9-25"></a><span class="bn">                &#39;P&#39; = &#39;PROSTATE &#39;</span></span>
+<span id="cb9-26"><a href="two-way-anova.html#cb9-26"></a><span class="bn">                &#39;R&#39; = &#39;COLORECTAL&#39; ;</span></span>
+<span id="cb9-27"><a href="two-way-anova.html#cb9-27"></a>run;</span>
+<span id="cb9-28"><a href="two-way-anova.html#cb9-28"></a></span>
+<span id="cb9-29"><a href="two-way-anova.html#cb9-29"></a>proc glm data=hgbds;</span>
+<span id="cb9-30"><a href="two-way-anova.html#cb9-30"></a>  class trt type;</span>
+<span id="cb9-31"><a href="two-way-anova.html#cb9-31"></a>  model hgbch = trt type trt*type /ss3;</span>
+<span id="cb9-32"><a href="two-way-anova.html#cb9-32"></a>  lsmeans type / pdiff stderr t lines;</span>
+<span id="cb9-33"><a href="two-way-anova.html#cb9-33"></a>  format type $typfmt.;</span>
+<span id="cb9-34"><a href="two-way-anova.html#cb9-34"></a>run;</span>
+<span id="cb9-35"><a href="two-way-anova.html#cb9-35"></a>quit;</span></code></pre></div>
+</div>
+<div id="sample-result-1" class="section level2">
+<h2><span class="header-section-number">4.2</span> Sample Result</h2>
+<p><img src="images/two-way-anova.png" width="200%" /></p>
+<div id="some-notes-1" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Some notes</h3>
+<ul>
+<li>There is significant difference in treatment effect (p=0.0491)</li>
+<li>There is also significant difference among Cancer Types (p=0.0376), but because there are more than 2 levels of this effect, further analysis are needed to determine where the differences exist.</li>
+</ul>
+<blockquote>
+<p>To perform pairwise t-tests for multiple comparisons, we can include the <strong>lsmeans</strong> statment with <strong>T</strong> option after the <strong>model</strong> statment.</p>
+</blockquote>
+<ul>
+<li>mean hemoglobin response differs significantly between the PROSTATE and COLORECTAL Cancer Types</li>
+</ul>
+<p><img src="images/two-way-anova-lsmeans.png" width="200%" /></p>
+</div>
+</div>
+<div id="least-squares-mean-ls-mean" class="section level2">
+<h2><span class="header-section-number">4.3</span> Least Squares Mean (LS-mean)</h2>
+<p><img src="images/lsmean1.png" width="200%" /><img src="images/lsmean2.png" width="200%" />
+<img src="images/lsmean1.png" width="200%" /><img src="images/lsmean2.png" width="200%" />
+<img src="images/lsmean1.png" width="200%" /><img src="images/lsmean2.png" width="200%" />
+<img src="images/lsmean1.png" width="200%" /><img src="images/lsmean2.png" width="200%" /></p>
+</div>
+<div id="unbalanced-two-way-anova" class="section level2">
+<h2><span class="header-section-number">4.4</span> Unbalanced Two-way ANOVA</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb10-1"><a href="two-way-anova.html#cb10-1"></a>data memry;</span>
+<span id="cb10-2"><a href="two-way-anova.html#cb10-2"></a>  input dose $ center $ y @@;</span>
+<span id="cb10-3"><a href="two-way-anova.html#cb10-3"></a>  datalines;</span>
+<span id="cb10-4"><a href="two-way-anova.html#cb10-4"></a>  0 A 6 0 A 5 0 A 6 0 A 8 0 A 3</span>
+<span id="cb10-5"><a href="two-way-anova.html#cb10-5"></a>  0 A 4 0 A 5 0 A 6 0 A 5 0 A 5</span>
+<span id="cb10-6"><a href="two-way-anova.html#cb10-6"></a>  0 A 7 0 A 8 0 B 7 0 B 4 0 B 7</span>
+<span id="cb10-7"><a href="two-way-anova.html#cb10-7"></a>  0 B 6 0 B 7 0 B 8 0 B 5 0 B 9</span>
+<span id="cb10-8"><a href="two-way-anova.html#cb10-8"></a>  0 B 11 0 B 4 0 B 7 30 A 8 30 A 12</span>
+<span id="cb10-9"><a href="two-way-anova.html#cb10-9"></a>  30 A 7 30 A 8 30 A 6 30 A 9 30 A 6</span>
+<span id="cb10-10"><a href="two-way-anova.html#cb10-10"></a>  30 A 11 30 B 5 30 B 6 30 B 6 30 B 5</span>
+<span id="cb10-11"><a href="two-way-anova.html#cb10-11"></a>  30 B 3 30 B 8 30 B 6 30 B 9 30 B 11</span>
+<span id="cb10-12"><a href="two-way-anova.html#cb10-12"></a>  30 B 5 60 A 11 60 A 7 60 A 7 60 A 11</span>
+<span id="cb10-13"><a href="two-way-anova.html#cb10-13"></a>  60 A 9 60 A 10 60 A 12 60 A 9 60 A 15</span>
+<span id="cb10-14"><a href="two-way-anova.html#cb10-14"></a>  60 B 9 60 B 12 60 B 13 60 B 9 60 B 13</span>
+<span id="cb10-15"><a href="two-way-anova.html#cb10-15"></a>  60 B 12 60 B 14 60 B 15 60 B 12</span>
+<span id="cb10-16"><a href="two-way-anova.html#cb10-16"></a>  ;</span>
+<span id="cb10-17"><a href="two-way-anova.html#cb10-17"></a>run;</span>
+<span id="cb10-18"><a href="two-way-anova.html#cb10-18"></a></span>
+<span id="cb10-19"><a href="two-way-anova.html#cb10-19"></a>proc glm data=memry;</span>
+<span id="cb10-20"><a href="two-way-anova.html#cb10-20"></a>  class dose center;</span>
+<span id="cb10-21"><a href="two-way-anova.html#cb10-21"></a>  model y=dose center dose*center;</span>
+<span id="cb10-22"><a href="two-way-anova.html#cb10-22"></a>  lsmeans dose/pdiff stderr;</span>
+<span id="cb10-23"><a href="two-way-anova.html#cb10-23"></a>run;</span>
+<span id="cb10-24"><a href="two-way-anova.html#cb10-24"></a>quit;</span></code></pre></div>
+<p><img src="images/two-way-anova-unblanced.png" width="200%" /><img src="images/two-way-anova-unblanced-lsmean.png" width="200%" /></p>
+</div>
+<div id="some-notes-2" class="section level2">
+<h2><span class="header-section-number">4.5</span> Some notes</h2>
+<p>From the SAS outputs, we can conclude that a difference exists between the 60 mg dose and the placebo, but the overall efficacy of the 30 mg dose is in question.</p>
+<div id="mixed-effects" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> “Mixed” effects</h3>
+<p>There are two types of effects that can be used in an ANOVA model, the <strong>“fixed”</strong> effect and <strong>“random”</strong> effect.</p>
+<ul>
+<li>Fixed: pre-specified levels, with the goal of comparing specific levels of that effect, e.g. treatment group</li>
+<li>Random: blocking factor in a two-way ANOVA can be either fixed or random. e.g. Study Center is frequently considered a random effect since the centers often represent a sample from a large number of centers available to conduct the study.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb11-1"><a href="two-way-anova.html#cb11-1"></a>/* study center as a random effect */</span>
+<span id="cb11-2"><a href="two-way-anova.html#cb11-2"></a>proc glm data=memry;</span>
+<span id="cb11-3"><a href="two-way-anova.html#cb11-3"></a>  class dose center;</span>
+<span id="cb11-4"><a href="two-way-anova.html#cb11-4"></a>  model y=dose center dose*center;</span>
+<span id="cb11-5"><a href="two-way-anova.html#cb11-5"></a>  random center dose*center;</span>
+<span id="cb11-6"><a href="two-way-anova.html#cb11-6"></a>  test h=dose e=dose*center;</span>
+<span id="cb11-7"><a href="two-way-anova.html#cb11-7"></a>  lsmeans dose /pdiff stderr;</span>
+<span id="cb11-8"><a href="two-way-anova.html#cb11-8"></a>run;</span>
+<span id="cb11-9"><a href="two-way-anova.html#cb11-9"></a>quit;</span></code></pre></div>
+<p><img src="images/expected-mean-square.png" width="200%" /></p>
+</div>
+<div id="using-proc-mixed" class="section level3">
+<h3><span class="header-section-number">4.5.2</span> Using Proc Mixed</h3>
+<p>When using SAS, <strong>Proc Mixed</strong> is preferable to <strong>Proc GLM</strong> in many situations.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb12-1"><a href="two-way-anova.html#cb12-1"></a>proc mixed data=memry;</span>
+<span id="cb12-2"><a href="two-way-anova.html#cb12-2"></a>  class dose center;</span>
+<span id="cb12-3"><a href="two-way-anova.html#cb12-3"></a>  model y=dose center dose*center;</span>
+<span id="cb12-4"><a href="two-way-anova.html#cb12-4"></a>  lsmeans dose*center /diff;</span>
+<span id="cb12-5"><a href="two-way-anova.html#cb12-5"></a>run;</span>
+<span id="cb12-6"><a href="two-way-anova.html#cb12-6"></a>quit;</span>
+<span id="cb12-7"><a href="two-way-anova.html#cb12-7"></a></span>
+<span id="cb12-8"><a href="two-way-anova.html#cb12-8"></a></span>
+<span id="cb12-9"><a href="two-way-anova.html#cb12-9"></a>/*study center is random effect*/</span>
+<span id="cb12-10"><a href="two-way-anova.html#cb12-10"></a>/*this mixed model analysis enables us to make inferences about the Dose effect that </span>
+<span id="cb12-11"><a href="two-way-anova.html#cb12-11"></a>applies to the entire population without concern for the levels of random effects*/</span>
+<span id="cb12-12"><a href="two-way-anova.html#cb12-12"></a></span>
+<span id="cb12-13"><a href="two-way-anova.html#cb12-13"></a>proc mixed data=memry;</span>
+<span id="cb12-14"><a href="two-way-anova.html#cb12-14"></a>  class dose center;</span>
+<span id="cb12-15"><a href="two-way-anova.html#cb12-15"></a>  model y=dose; /*study center not included here*/</span>
+<span id="cb12-16"><a href="two-way-anova.html#cb12-16"></a>  random center dose*center;</span>
+<span id="cb12-17"><a href="two-way-anova.html#cb12-17"></a>  lsmeans dose /diff;</span>
+<span id="cb12-18"><a href="two-way-anova.html#cb12-18"></a>run;</span>
+<span id="cb12-19"><a href="two-way-anova.html#cb12-19"></a>quit;</span></code></pre></div>
+<blockquote>
+<p>In SAS, Type III corresponds to the method of weighted squares of means and is often the method of choice for the analysis of clinical data.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="one-way-anova.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="repeated-measures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": true,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["CDA.pdf", "CDA.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+# Analysis of Covariance
+
+## Introduction
+
+Analysis of covariance (ANCOVA) provides a method for comparing **response means** among two or more groups adjusted for a quantitative concomitant variable, or 'covariate', thought to influence the response. The attention here is **confined to** cases in which the response, y, might be **linearly related to the covariate, x**. 
+
+> ANCOVA combines regression and ANOVA methods by fitting simple linear regression models within each group and comparing regressions among groups.
+
+Some examples:
++ comparing cholesterol levels (y) between a treated group and a reference group adjusted for age (x, in years)
++ comparing scar healing (y) between conventional and laser surgery adjusted for excision size (x, in mm)
++ comparing exercise tolerance (y) in 3 dose levels of a treatment used for angina patients adjusted for smoking habits (x, in cigarettes/day).
+
+> ANCOVA can often increase the precision of comparisons of the group means by including the covariate, x, as a source of variation, thereby decreasing the estimated error variance.
+
+> ANCOVA is especially useful when the values of the covariate differ among the groups. When this occurs and the response is linearly related to the covariate, covariance adjustments can lead to markedly different conclusions than those obtained using the unadjusted ANOVA methods.
+
+
+## SAS Example
+```markdown
+data tri;
+  input trt $ pat hgba1c trichg @@;
+  datalines;
+  FIB 2 7.0 5 FIB 4 6.0 10 FIB 7 7.1 -5
+  FIB 8 8.6 -20 FIB 11 6.3 0 FIB 13 7.5 -15
+  FIB 16 6.6 10 FIB 17 7.4 -10 FIB 19 5.3 20
+  FIB 21 6.5 -15 FIB 23 6.2 5 FIB 24 7.8 0
+  FIB 27 8.5 -40 FIB 28 9.2 -25 FIB 30 5.0 25
+  FIB 33 7.0 -10 GEM 1 5.1 10 GEM 3 6.0 15
+  GEM 5 7.2 -15 GEM 6 6.4 5 GEM 9 5.5 10
+  GEM 10 6.0 -15 GEM 12 5.6 -5 GEM 14 5.5 -10
+  GEM 15 6.7 -20 GEM 18 8.6 -40 GEM 20 6.4 -5
+  GEM 22 6.0 -10 GEM 25 9.3 -40 GEM 26 8.5 -20
+  GEM 29 7.9 -35 GEM 31 7.4 0 GEM 32 5.0 0
+  GEM 34 6.5 -10
+  ;
+run;
+
+proc sort data=tri;
+  by trt hgba1c trichg;
+run;
+
+proc means data=tri mean std n;
+  by trt;
+  var hgba1c trichg;
+run;
+
+/* use hgba1c as covariate */
+proc glm data=tri;
+  class trt;
+  model trichg = trt hgba1c / solution; /* solution: obtains the estimates
+for the regression equations*/
+  lsmeans trt/pdiff stderr cl;
+run;
+quit;
+
+/* compare groups with ANOVA, ignoring the covariate */
+proc glm data=tri;
+  class trt;
+  model trichg = trt/ss3;
+run;
+quit;
+
+```
